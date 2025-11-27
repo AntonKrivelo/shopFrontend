@@ -18,7 +18,9 @@ const AuthFormWrapper = ({ header, children }) => {
         marginTop: '60px',
       }}
     >
-      <Typography sx={{ textAlign: 'center', fontWeight: 900, fontSize: '20px' }}>
+      <Typography
+        sx={{ textTransform: 'uppercase', textAlign: 'center', fontWeight: 900, fontSize: '20px' }}
+      >
         {header}
       </Typography>
       {children}
