@@ -5,7 +5,7 @@ import Login from '../../components/login/Login';
 import styles from './AuthPage.module.scss';
 
 const AuthPage = () => {
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(true);
 
   return (
     <div>
