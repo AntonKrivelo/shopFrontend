@@ -16,7 +16,11 @@ const AuthPage = () => {
         alignItems="center"
         flexDirection="column"
       >
-        {isRegister ? <Register /> : <Login />}
+        {isRegister ? (
+          <Register setIsRegister={setIsRegister} />
+        ) : (
+          <Login setIsRegister={setIsRegister} />
+        )}
         <Button sx={{ mt: '10px' }} onClick={() => setIsRegister(!isRegister)}>
           {isRegister ? 'Do you already have an account? Enter' : 'No account? Register'}
         </Button>

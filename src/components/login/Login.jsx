@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AuthFormWrapper from '../../utils/AuthFormWrapper';
 import styles from './Login.module.scss';
 import { Button, TextField, Typography } from '@mui/material';
+import axiosBase from '../../api/axiosBase';
 
 const Login = () => {
   const {
@@ -14,9 +15,23 @@ const Login = () => {
 
   const [error, setError] = useState('');
 
-  const onSubmit = async (data, e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setError('');
+    try {
+      const res = await axiosBase.post('/login', {
+        email: data.email,
+        password: data.password,
+      });
+
+      localStorage.setItem('token', res.data.token);
+
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+
+      alert('Success!');
+      console.log('User:', res.data.user);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error');
+    }
   };
 
   return (
@@ -25,7 +40,7 @@ const Login = () => {
         <TextField
           id="outlined-required"
           label="Email"
-          {...register('Email', {
+          {...register('email', {
             required: 'Email is required.',
             message: 'Email is required.',
           })}
@@ -35,7 +50,7 @@ const Login = () => {
         <TextField
           id="outlined-required"
           label="Password"
-          {...register('Password', {
+          {...register('password', {
             required: 'Password is required.',
             message: 'Password is required.',
           })}

@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import AuthFormWrapper from '../../utils/AuthFormWrapper';
 import styles from './Register.module.scss';
+import axiosBase from '../../api/axiosBase';
 
-const Register = () => {
+const Register = ({ setIsRegister }) => {
   const {
     register,
     handleSubmit,
@@ -14,13 +15,20 @@ const Register = () => {
   const [error, setError] = useState('');
 
   const onSubmit = async (data, e) => {
-    e.preventDefault();
     setError('');
 
     try {
-      console.log(data);
-    } catch {
-      console.log('error');
+      await axiosBase.post('/register', {
+        name: data.username,
+        email: data.email,
+        password: data.password,
+      });
+      setIsRegister(false);
+    } catch (err) {
+      if (err.response) {
+        console.error(err.response.data);
+        setError(err.response.data.message || `Error registration.`);
+      }
     } finally {
       reset();
     }
@@ -45,7 +53,7 @@ const Register = () => {
         <TextField
           id="outlined-required"
           label="Email"
-          {...register('Email', {
+          {...register('email', {
             required: 'Email is required.',
             message: 'Email is required.',
           })}
